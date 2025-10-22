@@ -52,39 +52,6 @@ rooms/<roomId>/
 - `members` controla límite duro (≤4) mediante transacción.
 - `onDisconnect(member)` borra presencia individual; watcher cliente elimina ofertas/respuestas asociadas; cuando la lista queda vacía, se elimina `rooms/<roomId>`.
 
-### Reglas de Realtime Database (ejemplo)
-```json
-{
-  "rules_version": "2",
-  "rules": {
-    "rooms": {
-      "$roomId": {
-        ".read": "auth != null",
-        ".write": "auth != null",
-        "members": {
-          "$peerId": {
-            ".validate": "newData.hasChildren(['peerId','joinedAt','lastSeen']) && newData.parent().childrenCount() <= 4"
-          }
-        },
-        "offer": {
-          "$offerId": {
-            ".validate": "newData.child('from').isString() && newData.child('to').isString() && newData.child('description').hasChildren(['type','sdp'])"
-          }
-        },
-        "answer": {
-          "$offerId": {
-            ".validate": "newData.child('from').isString() && newData.child('to').isString() && newData.child('description').hasChildren(['type','sdp'])"
-          }
-        },
-        "$other": {
-          ".validate": true
-        }
-      }
-    }
-  }
-}
-```
-> Requiere Auth anónima (`signInAnonymously`) ya manejada por `FirebaseSignalingClient`.
 
 ## Scripts npm
 ```bash
@@ -97,7 +64,7 @@ npm run lint     # ESLint sobre src/
 
 ## Desarrollo local
 1. `npm install`
-2. Rellena config Firebase en `index.html`.
+2. Duplica `.env.example` → `.env` y completa los `VITE_FIREBASE_*`.
 3. `npm run dev`
 4. Abre `http://localhost:5173` en dos o más pestañas para pruebas.
 5. Usa “Generar ID” → “Crear sala” en primera pestaña, “Unirse” en otras.
