@@ -1,0 +1,7 @@
+Revisión de falla de audio en producción:
+1. Abrir DevTools (Console) en ambos navegadores y filtrar por [PeerMesh] y [CleanCall]; registrar cualquier "Peer connection state <peerId> failed" o "ICE state ... disconnected". Si aparecen, probablemente falta un servidor TURN.
+2. Abrir chrome://webrtc-internals (o about:webrtc en Firefox) antes de unirse; verificar que iceConnectionState no quede en checking/failed y que inbound-rtp muestre paquetes de audio.
+3. Revisar Firebase Realtime Database en rooms/<roomId>; confirmar que existan offer, answer y caller/calleeCandidates. Anotar si hay offers sin answer o candidatos solo de un lado.
+4. Validar que la UI muestre "Participantes totales: 2"; si no ocurre, revisar la consola por errores (permission-denied, etc.).
+
+Pendiente: te explicaré cómo funciona nuestro flujo con Speckit para que puedas indicarme qué prompt o comando debo preparar y ejecutar antes de aplicar cualquier cambio.
