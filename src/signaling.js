@@ -15,7 +15,7 @@ import {
   serverTimestamp,
   push,
   onDisconnect,
-  setLogLevel
+  enableLogging
 } from 'https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js';
 import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js';
 
@@ -47,7 +47,7 @@ function ensureFirebase(config) {
   assertConfig(config);
   firebaseApp = getApps().length ? getApps()[0] : initializeApp(config);
   database = getDatabase(firebaseApp);
-  setLogLevel('debug');
+  enableLogging(true);
   authInstance = getAuth(firebaseApp);
   authReadyPromise = signInAnonymously(authInstance).catch((error) => {
     console.error('Firebase auth error', error);
